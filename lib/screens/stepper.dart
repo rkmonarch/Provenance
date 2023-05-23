@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,18 +25,16 @@ class _stepperPageState extends State<stepperPage> {
   int groupValue = 0;
   List productDate = [];
   void getDate(String Date) {
+    for (int i = 0; i <= Date.length - 8; i += 8) {
+      final hex = Date.substring(i, i + 8);
 
-  for (int i = 0; i <= Date.length - 8; i += 8) {
-    final hex = Date.substring(i, i + 8);
-
-    final number = int.parse(hex, radix: 16);
-    print(number);
-    setState(() {
-      productDate.add(number);
-  
-    });
+      final number = int.parse(hex, radix: 16);
+      print(number);
+      setState(() {
+        productDate.add(number);
+      });
+    }
   }
-}
 
   StepperType _type = StepperType.horizontal;
   int _currentStep = 0;
@@ -81,7 +81,11 @@ class _stepperPageState extends State<stepperPage> {
           title: Text("Product Details"),
           actions: [],
         ),
-        body: buildStepper(context),
+        body: Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: deviceWidth(context) * 0.02),
+          child: buildStepper(context),
+        ),
       ),
     );
   }
@@ -100,8 +104,9 @@ class _stepperPageState extends State<stepperPage> {
                     _steps.add(
                       Step(
                         title: Text(data.locationStatuses![i]),
-                        content: Text(data.timestamp![i].hex ?? ""),
-                        isActive: true,
+                    state: data.locationStatuses!.length - 1 == i ? StepState.complete : StepState.indexed,
+                        content: SizedBox.shrink(),
+                        isActive: data.locationStatuses!.length - 1 == i ? true : false,
                       ),
                     );
                   });
@@ -158,6 +163,7 @@ class _stepperPageState extends State<stepperPage> {
                                     Text(
                                       data.description ?? "",
                                       style: TextStyle(
+                                        overflow: TextOverflow.fade,
                                         color: Colors.white,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,

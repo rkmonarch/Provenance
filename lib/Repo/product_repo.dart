@@ -25,7 +25,7 @@ class ProductModel {
   String? description;
   String? imageURL;
   List<String>? locationStatuses;
-  List<Timestamp>? timestamp;
+  List<String>? timestamp;
   List<String>? locationURL;
 
   ProductModel(
@@ -41,12 +41,7 @@ class ProductModel {
     description = json['description'];
     imageURL = json['imageURL'];
     locationStatuses = json['locationStatuses'].cast<String>();
-    if (json['timestamp'] != null) {
-      timestamp = <Timestamp>[];
-      json['timestamp'].forEach((v) {
-        timestamp!.add(new Timestamp.fromJson(v));
-      });
-    }
+    timestamp = json['timestamp'].cast<String>();
     locationURL = json['locationURL'].cast<String>();
   }
 
@@ -56,29 +51,8 @@ class ProductModel {
     data['description'] = this.description;
     data['imageURL'] = this.imageURL;
     data['locationStatuses'] = this.locationStatuses;
-    if (this.timestamp != null) {
-      data['timestamp'] = this.timestamp!.map((v) => v.toJson()).toList();
-    }
+    data['timestamp'] = this.timestamp;
     data['locationURL'] = this.locationURL;
-    return data;
-  }
-}
-
-class Timestamp {
-  String? type;
-  String? hex;
-
-  Timestamp({this.type, this.hex});
-
-  Timestamp.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    hex = json['hex'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['hex'] = this.hex;
     return data;
   }
 }
