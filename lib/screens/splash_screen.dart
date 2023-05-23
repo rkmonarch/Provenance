@@ -50,7 +50,6 @@ class _SplashScreenState extends State<SplashScreen>
           animation: _animation!,
           builder: (context, child) {
             return Opacity(
-              
               opacity: _animation!.value,
               child: Image.asset('assets/Images/logo.png'),
             );
