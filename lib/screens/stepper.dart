@@ -1,9 +1,4 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:enhance_stepper/enhance_stepper.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trust_chain/Repo/product_repo.dart';
@@ -26,6 +21,20 @@ class stepperPage extends StatefulWidget {
 
 class _stepperPageState extends State<stepperPage> {
   int groupValue = 0;
+  List productDate = [];
+  void getDate(String Date) {
+
+  for (int i = 0; i <= Date.length - 8; i += 8) {
+    final hex = Date.substring(i, i + 8);
+
+    final number = int.parse(hex, radix: 16);
+    print(number);
+    setState(() {
+      productDate.add(number);
+  
+    });
+  }
+}
 
   StepperType _type = StepperType.horizontal;
   int _currentStep = 0;
@@ -56,6 +65,7 @@ class _stepperPageState extends State<stepperPage> {
   @override
   void initState() {
     lg.wtf("initState");
+    lg.wtf(widget.productID);
     BlocProvider.of<ProductBloc>(context)
         .add(ProductLoadEvent(productID: widget.productID!));
     super.initState();
@@ -66,8 +76,9 @@ class _stepperPageState extends State<stepperPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           backgroundColor: Colors.green.shade300,
-          title: Text(widget.title),
+          title: Text("Product Details"),
           actions: [],
         ),
         body: buildStepper(context),
@@ -89,8 +100,7 @@ class _stepperPageState extends State<stepperPage> {
                     _steps.add(
                       Step(
                         title: Text(data.locationStatuses![i]),
-                        content: GestureDetector(
-                            onTap: () {}, child: Text(data.locationURL![i])),
+                        content: Text(data.timestamp![i].hex ?? ""),
                         isActive: true,
                       ),
                     );
@@ -109,15 +119,14 @@ class _stepperPageState extends State<stepperPage> {
                             borderRadius: BorderRadius.circular(20)),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: deviceWidth(context) * 0.03),
+                              horizontal: deviceWidth(context) * 0.02),
                           child: Row(
                             children: [
                               CircleAvatar(
                                   backgroundColor: Colors.white,
                                   radius: deviceWidth(context) * 0.15,
                                   child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://github.com/rkmonarch/Beagle-World/blob/main/assets/images/dog1.jpg",
+                                      imageUrl: data.imageURL!,
                                       imageBuilder: (context, imageProvider) =>
                                           Container(
                                             height: deviceWidth(context) * 0.4,
@@ -150,7 +159,7 @@ class _stepperPageState extends State<stepperPage> {
                                       data.description ?? "",
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 20,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -167,7 +176,8 @@ class _stepperPageState extends State<stepperPage> {
                         controlsBuilder: (context, details) => SizedBox(),
                         type: StepperType.vertical,
                         onStepTapped: (step) async {
-                          await launchUrl(Uri.parse("https://www.google.com"));
+                          await launchUrl(
+                              Uri.parse(data.locationURL!.elementAt(step)));
                         },
                       ),
                     ],

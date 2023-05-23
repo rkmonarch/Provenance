@@ -48,78 +48,69 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: Colors.green.shade300,
+        
         title: const Text(
           'Scan product',
-          style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          ValueListenableBuilder<bool>(
-            valueListenable: _torchIconState,
-            builder: (context, state, _) => IconButton(
-              icon: state
-                  ? const Icon(Icons.flash_on)
-                  : const Icon(Icons.flash_off),
-              onPressed: () async {
-                await CameraController.instance.toggleTorch();
-                _torchIconState.value =
-                    CameraController.instance.state.torchState;
-              },
+        elevation: 1.50,
+      
+      ),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          vSpaceLarge(context),
+          vSpaceMassive(context),
+          Image.asset("assets/Images/scanner.png",height: deviceHeight(context)*0.4,
+          width: deviceWidth(context)*2,
+          ),
+          vSpaceMedium(context),
+
+          Text(
+            "Scan the product barcode to get started",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
             ),
           ),
-        ],
-      ),
-      body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              scanBarcodeNormal();
-            },
-            child: Text("Scan ME")),
-      ),
+          vSpaceSmall(context),
 
-      //  BarcodeCamera(
-      //   types: const [
-      //     BarcodeType.ean8,
-      //     BarcodeType.ean13,
-      //     BarcodeType.code128,
-      //     BarcodeType.qr
-      //   ],
-      //   resolution: Resolution.hd720,
-      //   framerate: Framerate.fps30,
-      //   mode: DetectionMode.pauseVideo,
-      //   position: CameraPosition.back,
-      //   onScan: (code) {
-      //     lg.d(code.value);
-      //     BlocProvider.of<ProductBloc>(context)
-      //         .add(ProductLoadEvent(productID: code.value));
-      //     codeStream.add(code);
-      //   },
-      //   children: [
-      //     const MaterialPreviewOverlay(animateDetection: false),
-      //     const BlurPreviewOverlay(),
-      //     Positioned(
-      //       bottom: 50,
-      //       left: 0,
-      //       right: 0,
-      //       child: Column(
-      //         children: [
-      //           ElevatedButton(
-      //             child: const Text("Scan Again"),
-      //             onPressed: () => CameraController.instance.resumeDetector(),
-      //           ),
-      //           const SizedBox(height: 20),
-      //           // DetectionsCounter(
-      //           //   retailerID: widget.retailerID,
-      //           // )
-      //         ],
-      //       ),
-      //     )
-      //   ],
-      // ),
+          Text(
+            "You can find the barcode on the product packaging",
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          vSpaceMedium(context),
+          vSpaceMedium(context),
+          ElevatedButton(
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all<Size>(Size(200, 50)),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade300),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            onPressed: (){
+            scanBarcodeNormal();
+          }, child: Text("Scan Barcode",style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          
+          ),))
+        ],
+
+      )
+    
     );
   }
 }
@@ -229,45 +220,7 @@ class _DetectionsCounterState extends State<DetectionsCounter> {
                       )),
                 ))));
   }
-  // else if (state is ProductSuccess &&
-  //     state.model.description != null) {
-  //   lg.wtf("message");
-  //   return Container(
-  //       width: deviceWidth(context) * 0.9,
-  //       height: deviceHeight(context) * 0.11,
-  //       decoration: BoxDecoration(
-  //         color: Colors.red,
-  //         borderRadius: BorderRadius.all(Radius.circular(15)),
-  //       ),
-  //       child: Padding(
-  //         padding: EdgeInsets.symmetric(
-  //           horizontal: deviceWidth(context) * 0.03,
-  //         ),
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             vSpaceSmall(context),
-  //             Text(
-  //               "Error",
-  //               textAlign: TextAlign.center,
-  //               style: TextStyle(
-  //                 fontSize: deviceWidth(context) * 0.07,
-  //                 fontWeight: FontWeight.normal,
-  //                 color: Colors.white,
-  //               ),
-  //             ),
-  //             Text(
-  //               "No product found for this barcode, Scan again with proper barcode",
-  //               style: TextStyle(
-  //                   fontSize: deviceWidth(context) * 0.04,
-  //                   fontWeight: FontWeight.normal,
-  //                   color: Colors.white),
-  //             ),
-  //             vSpaceSmall(context),
-  //           ],
-  //         ),
-  //       ));
-  //
+ 
 
   @override
   void dispose() {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trust_chain/screens/home_screen.dart';
-import 'package:trust_chain/screens/stepper.dart';
 
 class SplashScreen extends StatefulWidget {
 
@@ -45,11 +44,13 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green.shade300,
       body: Center(
         child: AnimatedBuilder(
           animation: _animation!,
           builder: (context, child) {
             return Opacity(
+              
               opacity: _animation!.value,
               child: Image.asset('assets/Images/logo.png'),
             );

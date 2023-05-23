@@ -5,12 +5,13 @@ import 'package:trust_chain/resources/ui_helpers.dart';
 class ProductRepo {
   Future<ProductModel> getProduct({required String productID}) async {
     final responce = await http.get(
-      Uri.parse("http://192.168.49.155:3000/?id=${productID}"),
+      Uri.parse("https://provenance-new.vercel.app/api/get-details/?id=${productID}"),
     );
     print(responce.statusCode);
 
     if (responce.statusCode == 200) {
       lg.wtf("Success");
+      lg.d(responce.body);
       return ProductModel.fromJson(jsonDecode(responce.body));
     } else {
       lg.d(responce.body);
