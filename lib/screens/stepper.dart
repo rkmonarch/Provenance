@@ -103,7 +103,7 @@ class _stepperPageState extends State<stepperPage> {
                       Step(
                         title: Text(data.locationStatuses![i]),
                     state: data.locationStatuses!.length - 1 == i ? StepState.complete : StepState.indexed,
-                        content: SizedBox.shrink(),
+                        content: Text(data.timestamp![i]),
                         isActive: data.locationStatuses!.length - 1 == i ? true : false,
                       ),
                     );  
