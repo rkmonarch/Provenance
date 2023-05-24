@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:trust_chain/Repo/product_repo.dart';
 import 'package:trust_chain/resources/ui_helpers.dart';
-
 part 'product_event.dart';
 part 'product_state.dart';
 

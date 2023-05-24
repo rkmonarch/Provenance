@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,7 +106,7 @@ class _stepperPageState extends State<stepperPage> {
                         content: SizedBox.shrink(),
                         isActive: data.locationStatuses!.length - 1 == i ? true : false,
                       ),
-                    );
+                    );  
                   });
                 }
               }
